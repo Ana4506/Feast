@@ -1,4 +1,5 @@
 import 'package:feast/models/category.dart';
+import 'package:feast/models/navbar.dart';
 import 'package:feast/models/restraunt.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/widgets/categoryBox.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String userName = "Ananya";
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -172,6 +174,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: NavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(
+            () {
+              _selectedIndex = index;
+            },
+          );
+        },
       ),
     );
   }
