@@ -145,14 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0),
+              padding: EdgeInsets.only(left: width * 0.042),
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.001, vertical: height * 0.005),
                     child: Container(
-                      height: 1,
+                      height: height * 0.0005,
                       width: width * 0.55,
                       color: const Color(0xffE23744),
                     ),

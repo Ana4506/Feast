@@ -79,7 +79,7 @@ class Restaurant extends Equatable {
       name: 'Swad Kathi Roll',
       description: 'description',
       imageUrl: 'assets/rest.png',
-      tags: const ['Pizza', 'Rolls,', 'Fries', 'Chaap'],
+      tags: const ['Pizza', 'Rolls', 'Fries', 'Chaap'],
       menuItems: MenuItem.menuItems
           .where((menuItem) => menuItem.restaurantId == 1)
           .toList(),
@@ -89,7 +89,7 @@ class Restaurant extends Equatable {
       name: 'Surya Tuck Shop',
       description: 'description',
       imageUrl: 'assets/rest.png',
-      tags: ['Burger', 'Patties', 'ice-cream', 'Samosa'],
+      tags: ['Burger', 'Patties', 'ice-cream', 'Samosa', 'Wraps'],
       menuItems: MenuItem.menuItems
           .where((menuItem) => menuItem.restaurantId == 2)
           .toList(),
@@ -112,6 +112,16 @@ class Restaurant extends Equatable {
       tags: ['Chai', 'Coffee', 'Kesar Milk', 'Maggi'],
       menuItems: MenuItem.menuItems
           .where((menuItem) => menuItem.restaurantId == 4)
+          .toList(),
+    ),
+    Restaurant(
+      id: 5,
+      name: 'Quench',
+      description: 'description',
+      imageUrl: 'assets/rest.png',
+      tags: ['Pizza', 'Burger', 'Wraps', 'Choley Bhature'],
+      menuItems: MenuItem.menuItems
+          .where((menuItem) => menuItem.restaurantId == 5)
           .toList(),
     ),
   ];
