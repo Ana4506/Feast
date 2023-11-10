@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:feast/models/category.dart';
+import 'package:feast/models/navbar.dart';
 import 'package:feast/models/restraunt.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/widgets/categoryBox.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String userName = "Ananya";
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -168,14 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0),
+              padding: EdgeInsets.only(left: width * 0.042),
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.001, vertical: height * 0.005),
                     child: Container(
-                      height: 1,
+                      height: height * 0.0005,
                       width: width * 0.55,
                       color: const Color(0xffE23744),
                     ),
@@ -204,6 +206,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: NavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(
+            () {
+              _selectedIndex = index;
+            },
+          );
+        },
       ),
     );
   }

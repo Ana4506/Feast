@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-
-
 class Category extends Equatable {
   final String id;
   final String name;
@@ -35,7 +33,7 @@ class Category extends Equatable {
       id: '1',
       name: 'Drinks',
       description: 'This is a test description',
-      imageUrl: 'assets/pizza.png',
+      imageUrl: 'assets/drinks.png',
       index: 0,
     ),
     Category(
@@ -47,7 +45,7 @@ class Category extends Equatable {
     ),
     Category(
       id: '3',
-      name: 'Burgers',
+      name: 'Burger',
       description: 'This is a test description',
       imageUrl: 'assets/burger.png',
       index: 2,
@@ -56,7 +54,7 @@ class Category extends Equatable {
       id: '4',
       name: 'Desserts',
       description: 'This is a test description',
-      imageUrl: 'assets/pizza.png',
+      imageUrl: 'assets/desserts.png',
       index: 3,
     ),
     Category(
