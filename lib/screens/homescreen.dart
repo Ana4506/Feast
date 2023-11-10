@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:feast/models/category.dart';
 import 'package:feast/models/restraunt.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/widgets/categoryBox.dart';
-
+import 'package:http/http.dart' as http;
 import '../widgets/restaurantCard.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +15,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<dynamic> restaurants = [];
+
+  void fetchRestaurants() async{
+    print('working');
+    const url= 'http://10.0.2.2:8000/shops';
+    final uri= Uri.parse(url);
+    final response = await http.get(uri);
+    final body=response.body;
+    final json=jsonDecode(body);
+    print(json);
+    setState(() {
+      restaurants=json;
+    });
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    fetchRestaurants();
+  }
+
   String userName = "Ananya";
   @override
   Widget build(BuildContext context) {
@@ -170,9 +193,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+            // show names of al restaurants that we got from the api
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: restaurants.length,
+              itemBuilder: (context, index) {
+                return Text(restaurants[index]['name']);
+              },
+            ),
           ],
         ),
       ),
     );
   }
+
 }
