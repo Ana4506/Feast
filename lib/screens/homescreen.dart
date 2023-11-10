@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:feast/models/category.dart';
+import 'package:feast/models/menu_item.dart';
 import 'package:feast/models/navbar.dart';
 import 'package:feast/models/restraunt.dart';
 import 'package:flutter/material.dart';
@@ -16,21 +16,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<dynamic> restaurants = [];
-
-  void fetchRestaurants() async{
+  List<dynamic> restaurantsGautam = [];
+  List<Restaurant> r = [];
+  void fetchRestaurants() async {
     print('working');
-    const url= 'http://10.0.2.2:8000/shops';
-    final uri= Uri.parse(url);
+    const url = 'http://10.0.2.2:8000/shops';
+    final uri = Uri.parse(url);
     final response = await http.get(uri);
-    final body=response.body;
-    final json=jsonDecode(body);
+    final body = response.body;
+    final json = jsonDecode(body);
     print(json);
     setState(() {
-      restaurants=json;
+      restaurantsGautam = json;
+    });
+
+    restaurantsGautam.forEach((element) {
+      r.add(Restaurant(
+        id: element['shop_id'],
+        name: element['name'],
+        description: element['description'],
+        imageUrl: element['image_url'],
+        tags: element['tags'].cast<String>(),
+        avg_rating: element['avg_rating'],
+        menuItems: MenuItem.menuItems
+            .where((menuItem) => menuItem.restaurantId == 4)
+            .toList(),
+      ));
     });
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -126,32 +140,33 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: height * 0.16,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: Category.categories.length,
-                      itemBuilder: (context, index) {
-                        return CategoryBox(
-                          category: Category.categories[index],
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.16,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: Category.categories.length,
-                      itemBuilder: (context, index) {
-                        return CategoryBox(
-                          category: Category.categories[index],
-                        );
-                      },
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: height * 0.16,
+                  //   //fetch all restaurants with the given category tags
+                  //   child: ListView.builder(
+                  //     scrollDirection: Axis.horizontal,
+                  //     shrinkWrap: true,
+                  //     itemCount: Category.categories.length,
+                  //     itemBuilder: (context, index) {
+                  //       return CategoryBox(
+                  //         category: Category.categories[index],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: height * 0.16,
+                  //   child: ListView.builder(
+                  //     scrollDirection: Axis.horizontal,
+                  //     shrinkWrap: true,
+                  //     itemCount: Category.categories.length,
+                  //     itemBuilder: (context, index) {
+                  //       return CategoryBox(
+                  //         category: Category.categories[index],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -185,23 +200,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+
+            // show cards of all restaurants that we got from the api
+
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: Restaurant.restaurants.length,
+              itemCount: r.length,
               itemBuilder: (context, index) {
                 return RestaurantCard(
-                  restaurant: Restaurant.restaurants[index],
+                  restaurant: r[index],
                 );
-              },
-            ),
-            // show names of al restaurants that we got from the api
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: restaurants.length,
-              itemBuilder: (context, index) {
-                return Text(restaurants[index]['name']);
               },
             ),
           ],
@@ -219,5 +228,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

@@ -35,7 +35,7 @@ class RestaurantCard extends StatelessWidget {
                 height: height * 0.15,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(restaurant.imageUrl),
+                    image: NetworkImage(restaurant.imageUrl),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
@@ -84,9 +84,10 @@ class RestaurantCard extends StatelessWidget {
                           color: const Color(0xff0EAC00),
                           borderRadius: BorderRadius.circular(2.0),
                         ),
-                        child: const Center(
+                        child:  Center(
                           child: Text(
-                            '4.3',
+                            
+                            restaurant.avg_rating,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -94,7 +95,7 @@ class RestaurantCard extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                        )),
+                        ),),
                   ],
                 ),
               ),
