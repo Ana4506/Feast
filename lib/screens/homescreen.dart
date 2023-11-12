@@ -154,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     },
                   //   ),
                   // ),
+
                   // SizedBox(
                   //   height: height * 0.16,
                   //   child: ListView.builder(
@@ -200,9 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-
-            // show cards of all restaurants that we got from the api
-
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,

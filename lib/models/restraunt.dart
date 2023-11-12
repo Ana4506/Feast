@@ -133,3 +133,25 @@ class Restaurant extends Equatable {
   //   ),
   // ];
 }
+// class FoodItems extends Equatable {
+//   final int item_id;
+//   final String name;
+//   final int price;
+//   final bool availabile;
+//   final String description;
+//   final String veg_nonveg;
+//   final int order_id;
+//   final int shop_id;
+  
+//   @override
+//   List<Object?> get props => [
+//         item_id,
+//         name,
+//         price,
+//         availabile,
+//         description,
+//         veg_nonveg,
+//         order_id,
+//         shop_id,
+//       ];
+// }
