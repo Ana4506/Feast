@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       ),
-      home: MyOrders(),
+      home: LoginScreen(),
     );
   }
 }
