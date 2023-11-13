@@ -78,6 +78,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     buildProfileItem("Personal Info", Icons.person_2_outlined,
                         () {
+                          
                       // Handle navigation to "My Orders" screen
                     }, Colors.orange, PersonalInfo()),
                   ],
