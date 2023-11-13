@@ -4,6 +4,20 @@ import 'package:feast/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+class CartItem {
+  final int itemId;
+  final String itemName;
+  final double itemPrice;
+  final int quantity;
+
+  CartItem({
+    required this.itemId,
+    required this.itemName,
+    required this.itemPrice,
+    required this.quantity,
+  });
+}
+
 class ShopItem {
   // Define the properties of a shop item, adjust as needed
   final int item_id;
@@ -78,6 +92,33 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     }
   }
   //failed to load shop items
+
+  List<CartItem> cartItems = [];
+  void addToCart(ShopItem shopItem) {
+    // Check if the item is already in the cart
+    int existingIndex =
+        cartItems.indexWhere((item) => item.itemId == shopItem.item_id);
+
+    setState(() {
+      if (existingIndex != -1) {
+        // If the item is already in the cart, update its quantity
+        cartItems[existingIndex] = CartItem(
+          itemId: shopItem.item_id,
+          itemName: shopItem.name_item,
+          itemPrice: shopItem.price,
+          quantity: cartItems[existingIndex].quantity + 1,
+        );
+      } else {
+        // If the item is not in the cart, add it
+        cartItems.add(CartItem(
+          itemId: shopItem.item_id,
+          itemName: shopItem.name_item,
+          itemPrice: shopItem.price,
+          quantity: 1,
+        ));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +236,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         rating: 3.7,
                         shopId: widget.restaurant.id,
                         vegornonveg: shopItems[index].vegornonveg,
+                        onAddToCart: (ShopItem) {
+                          addToCart(shopItems[index]);
+                        },
                       );
                     },
                   ),
@@ -204,6 +248,50 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total: \Rs ${calculateTotal()}',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFFD1512D),
+                ),
+                onPressed: () {
+                  // Handle the checkout action
+                },
+                child: Text('Checkout'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        //color
+        backgroundColor: Color(0xFFD1512D),
+        onPressed: () {
+          // Navigate to the shopping cart page or show a dialog
+        },
+        child: Icon(Icons.shopping_cart),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  double calculateTotal() {
+    // Calculate the total price of items in the cart
+    double total = 0.0;
+    for (CartItem item in cartItems) {
+      total += item.itemPrice * item.quantity;
+    }
+    return total;
   }
 }

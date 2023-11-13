@@ -1,4 +1,5 @@
 import 'package:feast/screens/item_review.dart';
+import 'package:feast/screens/rest_details.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
@@ -15,13 +16,14 @@ class CartItem {
   });
 }
 
-class ItemCard extends StatelessWidget {
+class ItemCard extends StatefulWidget {
   final int itemId;
   final String name;
   final double price;
   final double rating;
   final int shopId;
   final String vegornonveg;
+  final Function(ShopItem) onAddToCart;
 
   const ItemCard({
     Key? key,
@@ -31,38 +33,18 @@ class ItemCard extends StatelessWidget {
     required this.rating,
     required this.shopId,
     required this.vegornonveg,
+    required this.onAddToCart,
   }) : super(key: key);
 
   @override
+  State<ItemCard> createState() => _ItemCardState();
+}
+
+class _ItemCardState extends State<ItemCard> {
+  @override
   Widget build(BuildContext context) {
-    List<CartItem> cartItems = [];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    void addToCart() {
-      // Check if the item is already in the cart
-      int index = cartItems.indexWhere((item) => item.itemId == itemId);
-
-      if (index != -1) {
-        // If item is already in the cart, increase the quantity
-        cartItems[index].quantity++;
-      } else {
-        // If item is not in the cart, add it
-        cartItems.add(CartItem(itemId: itemId, name: name, price: price));
-      }
-
-      // Calculate total price of items in the cart
-      double totalPrice = cartItems.fold(
-          0, (total, item) => total + (item.price * item.quantity));
-
-      // Display a snackbar with the updated information
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              '$name added to cart. Total Price: Rs ${totalPrice.toStringAsFixed(2)}'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
 
     return Card(
       child: Row(
@@ -76,23 +58,21 @@ class ItemCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        name,
+                        widget.name,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      // Add veg or non-veg logo based on the property
-                      if (vegornonveg == 'Veg')
+                      if (widget.vegornonveg == 'Veg')
                         Icon(
-                          Icons.eco, // Replace with the actual veg icon
+                          Icons.eco,
                           color: Colors.green,
                           size: 20,
                         ),
-                      if (vegornonveg == 'Nonveg')
+                      if (widget.vegornonveg == 'Nonveg')
                         Icon(
-                          Icons
-                              .local_dining, // Replace with the actual non-veg icon
+                          Icons.local_dining,
                           color: Colors.red,
                           size: 20,
                         ),
@@ -100,9 +80,7 @@ class ItemCard extends StatelessWidget {
                   ),
                   SizedBox(height: height * 0.01),
                   Text(
-                    //write rupees sign instead of dollar
-
-                    'Rs ${price.toStringAsFixed(2)}',
+                    'Rs ${widget.price.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -118,7 +96,7 @@ class ItemCard extends StatelessWidget {
                       ),
                       SizedBox(width: width * 0.01),
                       Text(
-                        rating.toString(),
+                        widget.rating.toString(),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -131,9 +109,9 @@ class ItemCard extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ItemReviewScreen(
-                                name: name,
-                                itemId: itemId,
-                                shopId: shopId,
+                                name: widget.name,
+                                itemId: widget.itemId,
+                                shopId: widget.shopId,
                               ),
                             ),
                           );
@@ -159,8 +137,19 @@ class ItemCard extends StatelessWidget {
                 primary: const Color(0xFFD1512D),
               ),
               onPressed: () {
-                // Add items to cart along with quantity and price
-                // Add a snackbar to show that the item has been added to cart
+                // Assuming you have the onAddToCart method available in the parent widget
+                // You should replace the following with the actual method call
+                // This assumes that onAddToCart is a function in the parent widget that takes a CartItem as a parameter
+                widget.onAddToCart(
+                  ShopItem(
+                    item_id: widget.itemId,
+                    name_item: widget.name,
+                    price: widget.price,
+                    shop_id: widget.shopId,
+                    rating: widget.rating,
+                    vegornonveg: widget.vegornonveg,
+                  ),
+                );
               },
               child: const Text('Add'),
             ),
