@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/homescreen.dart';
 import '../screens/profile.dart';
-import '../screens/wishlist.dart';
+import '../screens/my_orders.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -21,8 +21,8 @@ class NavBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Wishlist',
+          icon: Icon(Icons.assignment_rounded),
+          label: 'My Orders',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
@@ -42,7 +42,7 @@ class NavBar extends StatelessWidget {
         } else if (index == 1) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Wishlist()),
+            MaterialPageRoute(builder: (context) => MyOrders()),
           );
         } else if (index == 2) {
           Navigator.pushReplacement(
@@ -54,7 +54,3 @@ class NavBar extends StatelessWidget {
     );
   }
 }
-
-class ProfileScreen {}
-
-class WishlistScreen {}
