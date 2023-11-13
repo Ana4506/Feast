@@ -149,9 +149,6 @@ class _ItemCardState extends State<ItemCard> {
                 primary: const Color(0xFFD1512D),
               ),
               onPressed: () {
-                // Assuming you have the onAddToCart method available in the parent widget
-                // You should replace the following with the actual method call
-                // This assumes that onAddToCart is a function in the parent widget that takes a CartItem as a parameter
                 widget.onAddToCart(
                   ShopItem(
                     item_id: widget.itemId,
@@ -162,12 +159,6 @@ class _ItemCardState extends State<ItemCard> {
                     vegornonveg: widget.vegornonveg,
                   ),
                 );
-                // addToCart();
-                // print all the items in the cart
-                // cartItems.forEach((key, value) {
-                //   print(
-                //       'Item ID: ${value.itemId}, Name: ${value.name}, Price: ${value.price}, Quantity: ${value.quantity}');
-                // });
               },
               child: const Text('Add'),
             ),

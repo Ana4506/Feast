@@ -8,7 +8,7 @@ class CartItem {
   final int itemId;
   final String itemName;
   final double itemPrice;
-  final int quantity;
+  int quantity;
 
   CartItem({
     required this.itemId,
@@ -97,16 +97,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   Map<int, CartItem> cartItemsMap = {};
 
   void addToCart(ShopItem shopItem) {
-    // if (cartItemsMap.containsKey(widget.itemId)) {
-    //     cartItemsMap[widget.itemId]!.quantity++;
-    //   } else {
-    //     cartItemsMap[widget.itemId] = CartItem(
-    //       itemId: widget.itemId,
-    //       name: widget.name,
-    //       price: widget.price,
-    //     );
-    //   }
-    //   setState(() {});
+    if (cartItemsMap.containsKey(shopItem.item_id)) {
+      cartItemsMap[shopItem.item_id]!.quantity++;
+    } else {
+      cartItemsMap[shopItem.item_id] = CartItem(
+        itemId: shopItem.item_id,
+        itemName: shopItem.name_item,
+        itemPrice: shopItem.price,
+        quantity: 1,
+      );
+    }
+    // print all the items in the cart
+    cartItemsMap.forEach((key, value) {
+      print('${value.itemName}: ${value.quantity}');
+    });
+
+    setState(() {});
     // Check if the item is already in the cart
     int existingIndex =
         cartItems.indexWhere((item) => item.itemId == shopItem.item_id);
@@ -290,7 +296,39 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
         //color
         backgroundColor: Color(0xFFD1512D),
         onPressed: () {
-          // Navigate to the shopping cart page or show a dialog
+          //create a dialog box which displays all the items in the cart
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Cart Items'),
+                content: Container(
+                  width: double.maxFinite,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(cartItems[index].itemName),
+                        subtitle: Text(
+                            'Quantity: ${cartItems[index].quantity.toString()}'),
+                        trailing: Text(
+                            'Rs ${cartItems[index].itemPrice.toStringAsFixed(2)}'),
+                      );
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Close'),
+                  ),
+                ],
+              );
+            },
+          );
         },
         child: Icon(Icons.shopping_cart),
       ),
