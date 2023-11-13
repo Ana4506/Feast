@@ -45,6 +45,18 @@ class _ItemCardState extends State<ItemCard> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    // void addToCart() {
+    //   if (cartItems.containsKey(widget.itemId)) {
+    //     cartItems[widget.itemId]!.quantity++;
+    //   } else {
+    //     cartItems[widget.itemId] = CartItem(
+    //       itemId: widget.itemId,
+    //       name: widget.name,
+    //       price: widget.price,
+    //     );
+    //   }
+    //   setState(() {});
+    // }
 
     return Card(
       child: Row(
@@ -150,6 +162,12 @@ class _ItemCardState extends State<ItemCard> {
                     vegornonveg: widget.vegornonveg,
                   ),
                 );
+                // addToCart();
+                // print all the items in the cart
+                // cartItems.forEach((key, value) {
+                //   print(
+                //       'Item ID: ${value.itemId}, Name: ${value.name}, Price: ${value.price}, Quantity: ${value.quantity}');
+                // });
               },
               child: const Text('Add'),
             ),

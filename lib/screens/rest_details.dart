@@ -94,7 +94,19 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   //failed to load shop items
 
   List<CartItem> cartItems = [];
+  Map<int, CartItem> cartItemsMap = {};
+
   void addToCart(ShopItem shopItem) {
+    // if (cartItemsMap.containsKey(widget.itemId)) {
+    //     cartItemsMap[widget.itemId]!.quantity++;
+    //   } else {
+    //     cartItemsMap[widget.itemId] = CartItem(
+    //       itemId: widget.itemId,
+    //       name: widget.name,
+    //       price: widget.price,
+    //     );
+    //   }
+    //   setState(() {});
     // Check if the item is already in the cart
     int existingIndex =
         cartItems.indexWhere((item) => item.itemId == shopItem.item_id);
