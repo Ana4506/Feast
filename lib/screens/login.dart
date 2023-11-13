@@ -40,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         'Welcome back!',
                         style: TextStyle(
-                          fontFamily: 'Space Grotesk',
                           fontSize: 32,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w700,
@@ -52,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         'Login into your ERP below',
                         style: TextStyle(
-                          fontFamily: 'Space Grotesk',
                           fontSize: 16,
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w400,
@@ -77,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'Enter valid email id as netid@snu.edu.in',
                           hintStyle: TextStyle(color: Colors.white),
                           labelStyle: TextStyle(
-                            fontFamily: 'Space Grotesk',
                             fontSize: 16,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
@@ -104,7 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: 'Enter your SNU id password',
                             hintStyle: const TextStyle(color: Colors.white),
                             labelStyle: const TextStyle(
-                              fontFamily: 'Space Grotesk',
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontSize: 16,
@@ -153,7 +149,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(
                                 'Login',
                                 style: TextStyle(
-                                  fontFamily: 'Space Grotesk',
                                   fontSize: 16,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.bold,
@@ -174,7 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'Forgot Password',
                             style: TextStyle(
-                              fontFamily: 'Space Grotesk',
                               fontSize: 16,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w600,

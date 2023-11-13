@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:feast/widgets/categoryBox.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/restaurantCard.dart';
+import 'package:feast/screens/search.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,165 +54,143 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String userName = "Ananya";
   int _selectedIndex = 0;
+  // This controller will store the value of the search bar
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                top: height * 0.05,
-                left: width * 0.05,
-                right: width * 0.03,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      height: height * 0.04,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(30.0),
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.5),
-                          width: width * 0.005,
-                        ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Search for a food or shop...',
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                    fontFamily: 'Space Grotesk',
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Image.asset(
-                              'assets/search.png',
-                            ),
-                            iconSize: 19,
-                            onPressed: () {
-                              // Perform search action here
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: width * 0.1,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.shopping_cart),
-                    color: const Color(0xffE23744),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(23.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "$userName, What are you craving for today?",
-                  style: const TextStyle(
-                    fontFamily: "Space Grotesk",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-              child: Column(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(23, 40, 23, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  // SizedBox(
-                  //   height: height * 0.16,
-                  //   //fetch all restaurants with the given category tags
-                  //   child: ListView.builder(
-                  //     scrollDirection: Axis.horizontal,
-                  //     shrinkWrap: true,
-                  //     itemCount: Category.categories.length,
-                  //     itemBuilder: (context, index) {
-                  //       return CategoryBox(
-                  //         category: Category.categories[index],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-
-                  // SizedBox(
-                  //   height: height * 0.16,
-                  //   child: ListView.builder(
-                  //     scrollDirection: Axis.horizontal,
-                  //     shrinkWrap: true,
-                  //     itemCount: Category.categories.length,
-                  //     itemBuilder: (context, index) {
-                  //       return CategoryBox(
-                  //         category: Category.categories[index],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  SearchBar(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
+                      ),
+                    ),
+                    constraints:
+                        const BoxConstraints(maxWidth: 278, minHeight: 40),
+                    controller: _searchController,
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(11.0),
+                      ),
+                    ),
+                    hintText: "Search for shops, dishes...",
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(horizontal: 10)),
+                    leading: const Icon(Icons.search,
+                        color: Color(0xffE23744), size: 24.0),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.shopping_cart,
+                          color: const Color(0xffE23744), size: 24.0)),
                 ],
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(23, 10, 0, 0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Restaurants in your campus',
-                  style: TextStyle(
-                    fontFamily: "Urbanist",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "$userName, What are you craving today?",
+                    style: const TextStyle(
+                      fontFamily: "Space Grotesk",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: width * 0.042),
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.001, vertical: height * 0.005),
-                    child: Container(
-                      height: height * 0.0005,
-                      width: width * 0.55,
-                      color: const Color(0xffE23744),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // SizedBox(
+                    //   height: height * 0.16,
+                    //   //fetch all restaurants with the given category tags
+                    //   child: ListView.builder(
+                    //     scrollDirection: Axis.horizontal,
+                    //     shrinkWrap: true,
+                    //     itemCount: Category.categories.length,
+                    //     itemBuilder: (context, index) {
+                    //       return CategoryBox(
+                    //         category: Category.categories[index],
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: height * 0.16,
+                    //   child: ListView.builder(
+                    //     scrollDirection: Axis.horizontal,
+                    //     shrinkWrap: true,
+                    //     itemCount: Category.categories.length,
+                    //     itemBuilder: (context, index) {
+                    //       return CategoryBox(
+                    //         category: Category.categories[index],
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Restaurants in your campus',
+                    style: TextStyle(
+                      fontFamily: "Urbanist",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: r.length,
-              itemBuilder: (context, index) {
-                return RestaurantCard(
-                  restaurant: r[index],
-                );
-              },
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.only(left: width * 0.042),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.001, vertical: height * 0.005),
+                      child: Container(
+                        height: height * 0.0005,
+                        width: width * 0.55,
+                        color: const Color(0xffE23744),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // show cards of all restaurants that we got from the api
+
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: r.length,
+                itemBuilder: (context, index) {
+                  return RestaurantCard(
+                    restaurant: r[index],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: NavBar(
