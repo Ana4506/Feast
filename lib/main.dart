@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Inter',
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }

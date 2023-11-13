@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       restaurantsGautam = json;
     });
 
-    restaurantsGautam.forEach((element) {
+    for (var element in restaurantsGautam) {
       r.add(Restaurant(
         id: element['shop_id'],
         name: element['name'],
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             .where((menuItem) => menuItem.restaurantId == 4)
             .toList(),
       ));
-    });
+    }
   }
 
   @override

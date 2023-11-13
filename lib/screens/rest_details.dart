@@ -179,17 +179,21 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 SizedBox(
                   height: height * 0.006,
                 ),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: shopItems.length,
-                  itemBuilder: (context, index) {
-                    return ItemCard(
-                      name: shopItems[index].name_item,
-                      price: shopItems[index].price,
-                      rating: 3.7,
-                    );
-                  },
+                SingleChildScrollView(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: shopItems.length,
+                    itemBuilder: (context, index) {
+                      return ItemCard(
+                        itemId: shopItems[index].item_id,
+                        name: shopItems[index].name_item,
+                        price: shopItems[index].price,
+                        rating: 3.7,
+                        shopId: widget.restaurant.id,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
