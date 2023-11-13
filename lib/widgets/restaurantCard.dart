@@ -76,26 +76,26 @@ class RestaurantCard extends StatelessWidget {
                       ],
                     ),
                     Container(
-                        padding: EdgeInsets.all(width * 0.005),
-                        width: width * 0.1,
-                        height: height * 0.025,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: const Color(0xff0EAC00),
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
-                        child:  Center(
-                          child: Text(
-                            
-                            restaurant.avg_rating,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: "Space Grotesk",
-                              fontWeight: FontWeight.w700,
-                            ),
+                      padding: EdgeInsets.all(width * 0.005),
+                      width: width * 0.1,
+                      height: height * 0.025,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: const Color(0xff0EAC00),
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                      child: Center(
+                        child: Text(
+                          restaurant.avg_rating,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontFamily: "Space Grotesk",
+                            fontWeight: FontWeight.w700,
                           ),
-                        ),),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
