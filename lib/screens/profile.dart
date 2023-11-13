@@ -1,8 +1,7 @@
 import 'package:feast/screens/payment.dart';
 import 'package:feast/widgets/faqs.dart';
-import 'package:feast/widgets/favourites.dart';
 import 'package:feast/widgets/logout.dart';
-import 'package:feast/widgets/my_orders.dart';
+import 'package:feast/screens/my_orders.dart';
 import 'package:feast/widgets/personal_info.dart';
 import 'package:flutter/material.dart';
 
@@ -35,105 +34,106 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.transparent.withOpacity(0.0),
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(top: height * 0.05),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Color(0xffFFC6AE),
-                backgroundImage: AssetImage(
-                    'assets/ananya.HEIC'), // Replace with your image asset
-                radius: 50,
-              ),
-              SizedBox(height: height * 0.005),
-              Text(
-                name,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: EdgeInsets.only(top: height * 0.05),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Color(0xffFFC6AE),
+                  backgroundImage: AssetImage(
+                      'assets/ananya.HEIC'), // Replace with your image asset
+                  radius: 50,
                 ),
-              ),
-              Text(
-                email,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: height * 0.03),
-              Container(
-                width: width * 0.9,
-                padding: EdgeInsets.all(width * 0.03),
-                decoration: BoxDecoration(
-                  color: Color(0xffF6F8FA),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.5),
-                    width: 1,
+                SizedBox(height: height * 0.005),
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  children: [
-                    buildProfileItem("Personal Info", Icons.person_2_outlined,
-                        () {
-                          
-                      // Handle navigation to "My Orders" screen
-                    }, Colors.orange, PersonalInfo()),
-                  ],
-                ),
-              ),
-              SizedBox(height: height * 0.03),
-              Container(
-                width: width * 0.9,
-                padding: EdgeInsets.all(width * 0.03),
-                decoration: BoxDecoration(
-                  color: Color(0xffF6F8FA),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.5),
-                    width: 1,
+                Text(
+                  email,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
                   ),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  children: [
-                    buildProfileItem("My Orders", Icons.assignment_rounded, () {
-                      // Handle navigation to "My Orders" screen
-                    }, Colors.blue, MyOrders()),
-                    buildProfileItem("Favorites", Icons.favorite_outline, () {
-                      // Handle navigation to "Favorites" screen
-                    }, Colors.purple, Favourites()),
-                    buildProfileItem("FAQs", Icons.help_outline_sharp, () {
-                      // Handle navigation to "FAQs" screen
-                    }, Colors.orange, Faqs()),
-                    buildProfileItem("Payment Method", Icons.payment, () {
-                      // Handle navigation to "Payment Method" screen
-                    }, Colors.blue, Payment()),
-                  ],
-                ),
-              ),
-              SizedBox(height: height * 0.03),
-              Container(
-                width: width * 0.9,
-                padding: EdgeInsets.all(width * 0.03),
-                decoration: BoxDecoration(
-                  color: Color(0xffF6F8FA),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.5),
-                    width: 1,
+                SizedBox(height: height * 0.03),
+                Container(
+                  width: width * 0.9,
+                  padding: EdgeInsets.all(width * 0.03),
+                  decoration: BoxDecoration(
+                    color: Color(0xffF6F8FA),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.5),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  child: Column(
+                    children: [
+                      buildProfileItem("Personal Info", Icons.person_2_outlined,
+                          () {
+                        // Handle navigation to "My Orders" screen
+                      }, Colors.orange, PersonalInfo()),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    buildProfileItem("Logout", Icons.logout, () {
-                      // Handle navigation to "My Orders" screen
-                    }, Colors.red, Logout()),
-                  ],
+                SizedBox(height: height * 0.03),
+                Container(
+                  width: width * 0.9,
+                  padding: EdgeInsets.all(width * 0.03),
+                  decoration: BoxDecoration(
+                    color: Color(0xffF6F8FA),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.5),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      buildProfileItem("My Orders", Icons.assignment_rounded,
+                          () {
+                        // Handle navigation to "My Orders" screen
+                      }, Colors.blue, MyOrders()),
+                      buildProfileItem("FAQs", Icons.help_outline_sharp, () {
+                        // Handle navigation to "FAQs" screen
+                      }, Colors.orange, Faqs()),
+                      buildProfileItem("Payment Method", Icons.payment, () {
+                        // Handle navigation to "Payment Method" screen
+                      }, Colors.blue, Payment()),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: height * 0.03),
+                Container(
+                  width: width * 0.9,
+                  padding: EdgeInsets.all(width * 0.03),
+                  decoration: BoxDecoration(
+                    color: Color(0xffF6F8FA),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.5),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      buildProfileItem("Logout", Icons.logout, () {
+                        // Handle navigation to "My Orders" screen
+                      }, Colors.red, Logout()),
+                    ],
+                  ),
+                ),
+                SizedBox(height: height * 0.03),
+              ],
+            ),
           ),
         ),
       ),

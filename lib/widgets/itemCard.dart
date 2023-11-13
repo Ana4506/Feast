@@ -1,15 +1,20 @@
+import 'package:feast/screens/item_review.dart';
 import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
+  final int itemId;
   final String name;
   final double price;
   final double rating;
+  final int shopId;
 
   const ItemCard({
     Key? key,
+    required this.itemId,
     required this.name,
     required this.price,
     required this.rating,
+    required this.shopId,
   }) : super(key: key);
 
   @override
@@ -27,7 +32,7 @@ class ItemCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -45,7 +50,7 @@ class ItemCard extends StatelessWidget {
                   SizedBox(height: height * 0.001),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         color: Color(0xFFD1512D),
                         size: 16,
@@ -61,9 +66,18 @@ class ItemCard extends StatelessWidget {
                       SizedBox(width: width * 0.01),
                       TextButton(
                         onPressed: () {
-                          // TODO: Implement show reviews functionality
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ItemReviewScreen(
+                                name: name,
+                                itemId: itemId,
+                                shopId: shopId,
+                              ),
+                            ),
+                          );
                         },
-                        child: Text(
+                        child: const Text(
                           'Show Reviews',
                           style: TextStyle(
                             fontSize: 16,
@@ -81,12 +95,12 @@ class ItemCard extends StatelessWidget {
             width: width * 0.25,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFFD1512D),
+                primary: const Color(0xFFD1512D),
               ),
               onPressed: () {
                 // TODO: Implement add to cart functionality
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
           ),
         ],

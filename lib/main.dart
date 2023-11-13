@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }
