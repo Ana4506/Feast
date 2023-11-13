@@ -11,6 +11,7 @@ class ShopItem {
   final double price;
   final int shop_id;
   final double rating;
+  final String vegornonveg;
 
   ShopItem({
     required this.item_id,
@@ -18,6 +19,7 @@ class ShopItem {
     required this.price,
     required this.shop_id,
     required this.rating,
+    required this.vegornonveg,
   });
 }
 
@@ -65,6 +67,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             price: item['price'],
             shop_id: item['shop_id'],
             rating: item['item_rating'],
+            vegornonveg: item['veg_or_nonveg'],
           );
         }).toList();
       } else {
@@ -191,6 +194,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         price: shopItems[index].price,
                         rating: 3.7,
                         shopId: widget.restaurant.id,
+                        vegornonveg: shopItems[index].vegornonveg,
                       );
                     },
                   ),

@@ -21,7 +21,9 @@ class ItemReviewCard extends StatelessWidget {
               width: 50.0,
               height: 50.0,
               decoration: BoxDecoration(
-                color: Colors.yellow,
+                color: rating > 3
+                    ? Colors.green
+                    : (rating < 3 ? Colors.red : Colors.yellow),
                 shape: BoxShape.circle,
               ),
               child: Center(
