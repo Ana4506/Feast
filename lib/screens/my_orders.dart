@@ -66,11 +66,11 @@ class _MyOrdersState extends State<MyOrders>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: const Color(0xffE23744), size: 24.0),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: // orders icon 
+            Icon(
+          Icons.assignment_rounded,
+          color: Colors.orange,
+            ),
         title: Text(
           'My Orders',
           style: TextStyle(

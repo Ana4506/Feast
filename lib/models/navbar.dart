@@ -32,24 +32,7 @@ class NavBar extends StatelessWidget {
       currentIndex: selectedIndex,
       selectedItemColor: Colors.red, // Change this to your preferred color
       onTap: (index) {
-        onItemTapped(index); // Call the provided callback
-
-        if (index == 0) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
-        } else if (index == 1) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MyOrders()),
-          );
-        } else if (index == 2) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Profile()),
-          );
-        }
+        onItemTapped(index);
       },
     );
   }
