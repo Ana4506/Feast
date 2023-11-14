@@ -68,7 +68,7 @@ class _MyOrdersState extends State<MyOrders>
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back,
-              color: const Color(0xffE23744), size: 24.0),
+              color: const Color(0xffFA4A0C), size: 24.0),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -86,7 +86,7 @@ class _MyOrdersState extends State<MyOrders>
             Tab(text: 'Ongoing'),
             Tab(text: 'History'),
           ],
-          labelColor: const Color(0xffE23744),
+          labelColor: const Color(0xffFA4A0C),
           labelStyle: TextStyle(
             fontWeight: FontWeight.w700,
             fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
@@ -96,7 +96,7 @@ class _MyOrdersState extends State<MyOrders>
             fontWeight: FontWeight.w500,
             fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
           ),
-          indicatorColor: const Color(0xffE23744),
+          indicatorColor: const Color(0xffFA4A0C),
         ),
       ),
       body: TabBarView(

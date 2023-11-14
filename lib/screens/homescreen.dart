@@ -90,13 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(horizontal: 10)),
                     leading: const Icon(Icons.search,
-                        color: Color(0xffE23744), size: 24.0),
+                        color: Color(0xffFA4A0C), size: 24.0),
                   ),
                   const SizedBox(width: 10),
                   IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.shopping_cart,
-                          color: const Color(0xffE23744), size: 24.0)),
+                          color: const Color(0xffFA4A0C), size: 24.0)),
                 ],
               ),
               Padding(
@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         height: height * 0.0005,
                         width: width * 0.55,
-                        color: const Color(0xffE23744),
+                        color: const Color(0xffFA4A0C),
                       ),
                     ),
                   ],
