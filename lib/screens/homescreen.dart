@@ -116,20 +116,20 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    // SizedBox(
-                    //   height: height * 0.16,
-                    //   //fetch all restaurants with the given category tags
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     shrinkWrap: true,
-                    //     itemCount: Category.categories.length,
-                    //     itemBuilder: (context, index) {
-                    //       return CategoryBox(
-                    //         category: Category.categories[index],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(
+                      height: height * 0.16,
+                      //fetch all restaurants with the given category tags
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: Category.categories.length,
+                        itemBuilder: (context, index) {
+                          return CategoryBox(
+                            category: Category.categories[index],
+                          );
+                        },
+                      ),
+                    ),
                     // SizedBox(
                     //   height: height * 0.16,
                     //   child: ListView.builder(
