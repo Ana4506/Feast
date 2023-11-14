@@ -139,6 +139,37 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     });
   }
 
+  Future<void> createOrder(
+      int? userId, List<Map<String, dynamic>> items, int total) async {
+    final url = "http://10.0.2.2:8000/orders/create";
+    final uri = Uri.parse(url);
+    print(uri);
+
+    final orderData = {
+      'user_id': userId,
+      'items': items,
+      'total': total,
+    };
+
+    final body = jsonEncode(orderData);
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+      print(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Order created successfully');
+      } else {
+        print('Failed to create order');
+      }
+    } catch (error) {
+      print('Error creating order: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -284,7 +315,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xFFD1512D),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // navigate to order_placed.dart and pass the cart items and total amount
                   Navigator.push(
                     context,
@@ -294,7 +325,29 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         totalAmount: calculateTotal(),
                       ),
                     ),
+                    // call the createOrder function to create an order
                   );
+                  //call the createOrder function to create an order
+                  final userId = 1; // or null
+                  final items = cartItems
+                      .map((item) =>
+                          {"item_id": item.itemId, "quantity": item.quantity})
+                      .toList();
+                  final total = calculateTotal();
+                  // tyoe cas total to int
+
+                  createOrder(userId, items, total.toInt());
+
+                  // final orderBody = {
+                  //   "user_id": 0, // or null
+                  //   "items": [
+                  //     {"item_id": 0, "quantity": 0}
+                  //   ],
+                  //   "total": 0
+                  // };
+
+                  // await createOrder(orderBody['user_id'], orderBody['items'],
+                  //     orderBody['total']);
                 },
                 child: Text('Checkout'),
               ),
@@ -348,10 +401,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   double calculateTotal() {
     // Calculate the total price of items in the cart
-    double total = 0.0;
+    double total = 0;
     for (CartItem item in cartItems) {
       total += item.itemPrice * item.quantity;
     }
+    //return total typyecast to int;
     return total;
   }
 }

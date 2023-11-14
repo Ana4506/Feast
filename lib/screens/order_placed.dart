@@ -19,6 +19,7 @@ class OrderPlaced extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // print the entire cartitems
             Icon(
               Icons.check_circle,
               color: Colors.green,
