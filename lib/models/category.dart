@@ -64,5 +64,40 @@ class Category extends Equatable {
       imageUrl: 'assets/burger.png',
       index: 4,
     ),
+    Category(
+      id: '6',
+      name: 'Rolls',
+      description: 'This is a test description',
+      imageUrl: 'assets/rolls.png',
+      index: 0,
+    ),
+    Category(
+      id: '7',
+      name: 'Maggi',
+      description: 'This is a test description',
+      imageUrl: 'assets/pizza.png',
+      index: 1,
+    ),
+    Category(
+      id: '8',
+      name: 'Momos',
+      description: 'This is a test description',
+      imageUrl: 'assets/momos.png',
+      index: 2,
+    ),
+    Category(
+      id: '9',
+      name: 'Patty',
+      description: 'This is a test description',
+      imageUrl: 'assets/patties.png',
+      index: 3,
+    ),
+    Category(
+      id: '10',
+      name: 'Salads',
+      description: 'This is a test description',
+      imageUrl: 'assets/burger.png',
+      index: 4,
+    ),
   ];
 }

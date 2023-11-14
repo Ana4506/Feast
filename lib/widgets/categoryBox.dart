@@ -1,11 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:feast/models/category.dart';
 import 'package:feast/models/restraunt.dart';
-import 'package:flutter/material.dart';
 import 'package:feast/widgets/restaurantfilter.dart';
 
 class CategoryBox extends StatelessWidget {
   final Category category;
-  const CategoryBox({Key? key, required this.category}) : super(key: key);
+  final List<Restaurant> restaurants;
+
+  const CategoryBox({
+    Key? key,
+    required this.category,
+    required this.restaurants,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +19,14 @@ class CategoryBox extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => RestaurantFilter(
-        //       category: category,
-        //       restaurants: Restaurant.restaurants,
-        //     ),
-        //   ),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => RestaurantFilter(
+              category: category,
+              restaurants: restaurants,
+            ),
+          ),
+        );
       },
       child: Container(
         width: width * 0.17,

@@ -122,27 +122,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: Category.categories.length,
+                        itemCount: 5,
                         itemBuilder: (context, index) {
                           return CategoryBox(
                             category: Category.categories[index],
+                            restaurants: r,
                           );
                         },
                       ),
                     ),
-                    // SizedBox(
-                    //   height: height * 0.16,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     shrinkWrap: true,
-                    //     itemCount: Category.categories.length,
-                    //     itemBuilder: (context, index) {
-                    //       return CategoryBox(
-                    //         category: Category.categories[index],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(
+                      height: height * 0.16,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return CategoryBox(
+                            category: Category.categories[index + 5],
+                            restaurants: r,
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
