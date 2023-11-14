@@ -1,12 +1,15 @@
 import 'package:feast/screens/item_review.dart';
+import 'package:feast/screens/rest_details.dart';
 import 'package:flutter/material.dart';
 
-class ItemCard extends StatelessWidget {
+class ItemCard extends StatefulWidget {
   final int itemId;
   final String name;
   final double price;
   final double rating;
   final int shopId;
+  final String vegornonveg;
+  final Function(ShopItem) onAddToCart;
 
   const ItemCard({
     Key? key,
@@ -15,12 +18,20 @@ class ItemCard extends StatelessWidget {
     required this.price,
     required this.rating,
     required this.shopId,
+    required this.vegornonveg,
+    required this.onAddToCart,
   }) : super(key: key);
 
+  @override
+  State<ItemCard> createState() => _ItemCardState();
+}
+
+class _ItemCardState extends State<ItemCard> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return Card(
       child: Row(
         children: [
@@ -30,18 +41,32 @@ class ItemCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.name,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (widget.vegornonveg == 'Veg')
+                        Icon(
+                          Icons.eco,
+                          color: Colors.green,
+                          size: 20,
+                        ),
+                      if (widget.vegornonveg == 'Nonveg')
+                        Icon(
+                          Icons.local_dining,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                    ],
                   ),
                   SizedBox(height: height * 0.01),
                   Text(
-                    //write rupees sign instead of dollar
-
-                    'Rs ${price.toStringAsFixed(2)}',
+                    'Rs ${widget.price.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -57,7 +82,7 @@ class ItemCard extends StatelessWidget {
                       ),
                       SizedBox(width: width * 0.01),
                       Text(
-                        rating.toString(),
+                        widget.rating.toString(),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -70,9 +95,9 @@ class ItemCard extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ItemReviewScreen(
-                                name: name,
-                                itemId: itemId,
-                                shopId: shopId,
+                                name: widget.name,
+                                itemId: widget.itemId,
+                                shopId: widget.shopId,
                               ),
                             ),
                           );
@@ -98,7 +123,16 @@ class ItemCard extends StatelessWidget {
                 primary: const Color(0xFFD1512D),
               ),
               onPressed: () {
-                // TODO: Implement add to cart functionality
+                widget.onAddToCart(
+                  ShopItem(
+                    item_id: widget.itemId,
+                    name_item: widget.name,
+                    price: widget.price,
+                    shop_id: widget.shopId,
+                    rating: widget.rating,
+                    vegornonveg: widget.vegornonveg,
+                  ),
+                );
               },
               child: const Text('Add'),
             ),

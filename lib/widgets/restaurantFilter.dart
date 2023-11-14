@@ -1,7 +1,7 @@
-import 'package:feast/widgets/restaurantCard.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/models/category.dart';
 import 'package:feast/models/restraunt.dart';
+import 'package:feast/widgets/restaurantCard.dart';
 
 class RestaurantFilter extends StatelessWidget {
   final Category category;
@@ -17,7 +17,7 @@ class RestaurantFilter extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     // Define a list of tags that should be considered under "Drinks."
-    List<String> drinksTags = ['juice', 'shakes', 'coffee'];
+    List<String> drinksTags = ['Juice', 'shakes', 'coffee', 'Tea'];
 
     return Scaffold(
       backgroundColor: Color(0xffD1512D),
@@ -31,7 +31,7 @@ class RestaurantFilter extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        centerTitle: false, // Center the title to the left
+        centerTitle: false,
         backgroundColor: Colors.transparent.withOpacity(0.0),
         elevation: 0,
       ),

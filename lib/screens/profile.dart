@@ -33,6 +33,12 @@ class _ProfileState extends State<Profile> {
         centerTitle: false,
         backgroundColor: Colors.transparent.withOpacity(0.0),
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.person, color: Colors.orange),
+          onPressed: () {
+            // Handle navigation back to previous screen
+          },
+        ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

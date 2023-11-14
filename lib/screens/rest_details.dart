@@ -1,8 +1,23 @@
 import 'dart:convert';
 import 'package:feast/models/restraunt.dart';
+import 'package:feast/screens/order_placed.dart';
 import 'package:feast/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+class CartItem {
+  final int itemId;
+  final String itemName;
+  final double itemPrice;
+  int quantity;
+
+  CartItem({
+    required this.itemId,
+    required this.itemName,
+    required this.itemPrice,
+    required this.quantity,
+  });
+}
 
 class ShopItem {
   // Define the properties of a shop item, adjust as needed
@@ -11,6 +26,7 @@ class ShopItem {
   final double price;
   final int shop_id;
   final double rating;
+  final String vegornonveg;
 
   ShopItem({
     required this.item_id,
@@ -18,6 +34,7 @@ class ShopItem {
     required this.price,
     required this.shop_id,
     required this.rating,
+    required this.vegornonveg,
   });
 }
 
@@ -65,6 +82,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             price: item['price'],
             shop_id: item['shop_id'],
             rating: item['item_rating'],
+            vegornonveg: item['veg_or_nonveg'],
           );
         }).toList();
       } else {
@@ -75,6 +93,51 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
     }
   }
   //failed to load shop items
+
+  List<CartItem> cartItems = [];
+  Map<int, CartItem> cartItemsMap = {};
+
+  void addToCart(ShopItem shopItem) {
+    if (cartItemsMap.containsKey(shopItem.item_id)) {
+      cartItemsMap[shopItem.item_id]!.quantity++;
+    } else {
+      cartItemsMap[shopItem.item_id] = CartItem(
+        itemId: shopItem.item_id,
+        itemName: shopItem.name_item,
+        itemPrice: shopItem.price,
+        quantity: 1,
+      );
+    }
+    // print all the items in the cart
+    cartItemsMap.forEach((key, value) {
+      print('${value.itemName}: ${value.quantity}');
+    });
+
+    setState(() {});
+    // Check if the item is already in the cart
+    int existingIndex =
+        cartItems.indexWhere((item) => item.itemId == shopItem.item_id);
+
+    setState(() {
+      if (existingIndex != -1) {
+        // If the item is already in the cart, update its quantity
+        cartItems[existingIndex] = CartItem(
+          itemId: shopItem.item_id,
+          itemName: shopItem.name_item,
+          itemPrice: shopItem.price,
+          quantity: cartItems[existingIndex].quantity + 1,
+        );
+      } else {
+        // If the item is not in the cart, add it
+        cartItems.add(CartItem(
+          itemId: shopItem.item_id,
+          itemName: shopItem.name_item,
+          itemPrice: shopItem.price,
+          quantity: 1,
+        ));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +254,10 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         price: shopItems[index].price,
                         rating: 3.7,
                         shopId: widget.restaurant.id,
+                        vegornonveg: shopItems[index].vegornonveg,
+                        onAddToCart: (ShopItem) {
+                          addToCart(shopItems[index]);
+                        },
                       );
                     },
                   ),
@@ -200,6 +267,91 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total: \Rs ${calculateTotal()}',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFFD1512D),
+                ),
+                onPressed: () {
+                  // navigate to order_placed.dart and pass the cart items and total amount
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderPlaced(
+                        cartItems: cartItems,
+                        totalAmount: calculateTotal(),
+                      ),
+                    ),
+                  );
+                },
+                child: Text('Checkout'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        //color
+        backgroundColor: Color(0xFFD1512D),
+        onPressed: () {
+          //create a dialog box which displays all the items in the cart
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Cart Items'),
+                content: Container(
+                  width: double.maxFinite,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(cartItems[index].itemName),
+                        subtitle: Text(
+                            'Quantity: ${cartItems[index].quantity.toString()}'),
+                        trailing: Text(
+                            'Rs ${cartItems[index].itemPrice.toStringAsFixed(2)}'),
+                      );
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Close'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Icon(Icons.shopping_cart),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  double calculateTotal() {
+    // Calculate the total price of items in the cart
+    double total = 0.0;
+    for (CartItem item in cartItems) {
+      total += item.itemPrice * item.quantity;
+    }
+    return total;
   }
 }
