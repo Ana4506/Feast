@@ -2,20 +2,6 @@ import 'package:feast/screens/item_review.dart';
 import 'package:feast/screens/rest_details.dart';
 import 'package:flutter/material.dart';
 
-class CartItem {
-  final int itemId;
-  final String name;
-  final double price;
-  int quantity;
-
-  CartItem({
-    required this.itemId,
-    required this.name,
-    required this.price,
-    this.quantity = 1,
-  });
-}
-
 class ItemCard extends StatefulWidget {
   final int itemId;
   final String name;
@@ -45,18 +31,6 @@ class _ItemCardState extends State<ItemCard> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // void addToCart() {
-    //   if (cartItems.containsKey(widget.itemId)) {
-    //     cartItems[widget.itemId]!.quantity++;
-    //   } else {
-    //     cartItems[widget.itemId] = CartItem(
-    //       itemId: widget.itemId,
-    //       name: widget.name,
-    //       price: widget.price,
-    //     );
-    //   }
-    //   setState(() {});
-    // }
 
     return Card(
       child: Row(

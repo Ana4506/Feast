@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:feast/models/restraunt.dart';
+import 'package:feast/screens/order_placed.dart';
 import 'package:feast/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -284,7 +285,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   primary: Color(0xFFD1512D),
                 ),
                 onPressed: () {
-                  // Handle the checkout action
+                  // navigate to order_placed.dart and pass the cart items and total amount
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderPlaced(
+                        cartItems: cartItems,
+                        totalAmount: calculateTotal(),
+                      ),
+                    ),
+                  );
                 },
                 child: Text('Checkout'),
               ),
