@@ -9,10 +9,12 @@ class ItemReview {
 
   final int rating;
   final String review;
+  final DateTime timestamp;
 
   ItemReview({
     required this.rating,
     required this.review,
+    required this.timestamp,
   });
 }
 
@@ -45,12 +47,11 @@ class _ItemReviewScreenState extends State<ItemReviewScreen> {
     final itemId = widget.itemId;
     final url = "http://10.0.2.2:8000/reviews/$shopId/$itemId";
     final uri = Uri.parse(url);
-   
+
     try {
       final response = await http.get(uri);
       print(response.body);
       if (response.statusCode == 200) {
-        
         final body = response.body;
         final json = jsonDecode(body);
 
@@ -62,6 +63,7 @@ class _ItemReviewScreenState extends State<ItemReviewScreen> {
           return ItemReview(
             rating: review['rating'],
             review: review['comment'],
+            timestamp: DateTime.parse(review['created_at']),
           );
         }).toList();
       } else {
@@ -125,6 +127,7 @@ class _ItemReviewScreenState extends State<ItemReviewScreen> {
           return ItemReviewCard(
             review: itemReview.review,
             rating: itemReview.rating,
+            timestamp: itemReview.timestamp,
           );
         },
       ),
@@ -165,6 +168,8 @@ class _ItemReviewScreenState extends State<ItemReviewScreen> {
                             double.tryParse(ratingController.text) ?? 0.0;
                         addReview(review, rating);
                         Navigator.of(context).pop();
+                        //page should automatically refresh afer submitting review
+                        fetchItemReviews();
                       },
                     ),
                   ],
