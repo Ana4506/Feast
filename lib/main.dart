@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       ),
-      home: Profile(),
+      home: LoginScreen(),
     );
   }
 }

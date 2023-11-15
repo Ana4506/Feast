@@ -1,5 +1,37 @@
+import 'dart:convert';
+
+import 'package:feast/widgets/order_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+
+class Order {
+  final String orderId;
+  final int shopId;
+  final String storeName;
+  final double total;
+  final List<OrderItem> items;
+
+  Order({
+    required this.orderId,
+    required this.shopId,
+    required this.storeName,
+    required this.total,
+    required this.items,
+  });
+}
+
+class OrderItem {
+  final int itemId;
+  final String itemName;
+  final int quantity;
+
+  OrderItem({
+    required this.itemId,
+    required this.itemName,
+    required this.quantity,
+  });
+}
 
 class MyOrders extends StatefulWidget {
   const MyOrders({Key? key}) : super(key: key);
@@ -10,345 +42,98 @@ class MyOrders extends StatefulWidget {
 
 class _MyOrdersState extends State<MyOrders>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  List<Map<String, dynamic>> quantities = [
-    {'quantity': 3},
-    {'quantity': 2},
-    {'quantity': 1},
-    {'quantity': 4},
-    {'quantity': 4},
-  ];
-
-  List<String> shops = [
-    'Surya Tuck Shop',
-    'Swad Restaurant',
-    'Surya Tuck Shop',
-    'Navin Tea Shop',
-    'Navin Tea Shop',
-  ];
-
-  List<Map<String, dynamic>> prices = [
-    {'price': 100},
-    {'price': 200},
-    {'price': 50},
-    {'price': 20},
-    {'price': 20},
-  ];
-
-  List<Map<String, dynamic>> oldQuantities = [
-    {'quantity': 1},
-    {'quantity': 2},
-  ];
-
-  List<String> oldShops = [
-    'Rama Enterprises',
-    'Quench',
-  ];
-
-  List<Map<String, dynamic>> oldPrices = [
-    {'price': 35},
-    {'price': 110},
-  ];
-
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    fetchOrders();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  Stream<List<Order>> fetchOrders() async* {
+    final url = "http://10.0.2.2:8000/orders"; // replace with your actual URL
+    final uri = Uri.parse(url);
+    List<Order> orders = [];
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final body = response.body;
+        final json = jsonDecode(body);
+
+        // Assuming each order is a map with keys as order ID and values as order details
+        Map<String, dynamic> ordersData = json;
+
+        // Process each order
+        for (var entry in ordersData.entries) {
+          String orderId = entry.key;
+          Map<String, dynamic> orderDetails = entry.value;
+
+          // Process each item in the order
+          List<OrderItem> items =
+              (orderDetails['items'] as List<dynamic>).map((item) {
+            return OrderItem(
+              itemId: item['item_id'],
+              itemName: item['item_name'],
+              quantity: item['quantity'],
+            );
+          }).toList();
+
+          // Create an Order object and add it to the list
+          orders.add(Order(
+            orderId: orderId,
+            shopId: orderDetails['shop_id'],
+            storeName: orderDetails['store_name'],
+            total: orderDetails['total'],
+            items: items,
+          ));
+
+          // Yield the list of orders
+          yield orders;
+        }
+      } else {
+        print('Failed to load orders');
+      }
+    } catch (error) {
+      print('Error fetching orders: $error');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: const Color(0xffFA4A0C), size: 24.0),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          'My Orders',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xff181C2E),
+        appBar: AppBar(
+          leading: // orders icon 
+            Icon(
+          Icons.assignment_rounded,
+          color: Colors.orange,
+            ),
+          title: Text(
+            'My Orders',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xff181C2E),
+            ),
           ),
+          backgroundColor: Colors.white,
         ),
-        backgroundColor: Colors.white,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: 'Ongoing'),
-            Tab(text: 'History'),
-          ],
-          labelColor: const Color(0xffFA4A0C),
-          labelStyle: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
-          ),
-          unselectedLabelColor: const Color(0xffA5A7B9),
-          unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
-          ),
-          indicatorColor: const Color(0xffFA4A0C),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24),
-                  title: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.fastfood,
-                            color: Color.fromARGB(255, 234, 101, 0),
-                            size: 60,
-                          ),
-                          SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    shops[index].toString(),
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(width: 50),
-                                  Text(
-                                    '#${index + 1000}',
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 169, 169, 169),
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text("₹${prices[index]['price']}",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(width: 10),
-                                  Text("|",
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 169, 169, 169),
-                                          fontSize: 12)),
-                                  SizedBox(width: 10),
-                                  Text("Qty: ${quantities[index]['quantity'].toString()}"
-                                      ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Track Order',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 234, 101, 0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  minimumSize: Size(140, 44),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Cancel Order',
-                                  style: TextStyle(fontSize: 12,
-                                  color: Color.fromARGB(255, 234, 101, 0),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 255, 255, 255),
-
-
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(color: Color.fromARGB(255, 234, 101, 0)),
-
-
-                                  ),
-                                  minimumSize: Size(140, 44),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  // trailing: Text('#${index + 1000}',
-                  //     style: TextStyle(
-                  //         color: const Color.fromARGB(255, 169, 169, 169),
-                  //         fontSize: 14)),
-                ),
+        body:
+            //Listview builder which sends the data to the order card including items list which are fetched from api call
+            StreamBuilder<List<Order>>(
+          stream: fetchOrders(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data == null ? 0 : snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return OrderCard(order: snapshot.data![index]);
+                },
               );
-            },
-          ),
-          ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24),
-                  title: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.fastfood,
-                            color: Color.fromARGB(255, 234, 101, 0),
-                            size: 60,
-                          ),
-                          SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    oldShops[index].toString(),
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(width: 50),
-                                  Text(
-                                    '#${index + 600}',
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 169, 169, 169),
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text("₹${oldPrices[index]['price']}",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700)),
-                                  SizedBox(width: 10),
-                                  Text("|",
-                                      style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 169, 169, 169),
-                                          fontSize: 12)),
-                                  SizedBox(width: 10),
-                                  Text("Qty: ${oldQuantities[index]['quantity'].toString()}"
-                                      ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              
-                              SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Rate',
-                                  style: TextStyle(fontSize: 12,
-                                  color: Color.fromARGB(255, 234, 101, 0),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 255, 255, 255),
-
-
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: BorderSide(color: Color.fromARGB(255, 234, 101, 0)),
-
-
-                                  ),
-                                  minimumSize: Size(140, 44),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Reorder',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 234, 101, 0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  minimumSize: Size(140, 44),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  // trailing: Text('#${index + 1000}',
-                  //     style: TextStyle(
-                  //         color: const Color.fromARGB(255, 169, 169, 169),
-                  //         fontSize: 14)),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
+            }
+          },
+        ));
   }
 }
