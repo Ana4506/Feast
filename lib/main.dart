@@ -1,5 +1,6 @@
 import 'package:feast/models/navbar.dart';
 import 'package:feast/screens/search_results.dart';
+import 'package:feast/widgets/personal_info.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/screens/login.dart';
 import 'package:feast/screens/homescreen.dart';
@@ -9,6 +10,8 @@ import "package:feast/screens/profile.dart";
 import "package:feast/screens/payment.dart";
 import "package:feast/screens/search.dart";
 import "package:feast/screens/search_results.dart";
+import "package:feast/widgets/personal_info.dart";
+
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       ),
-      home: LoginScreen(),
+      home: PersonalInfo(),
     );
   }
 }

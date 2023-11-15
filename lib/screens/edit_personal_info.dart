@@ -38,71 +38,36 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 ListTile(
-                  leading: EditableImage(
-                    // Define the method that will run on
-                    // the change process of the image.
-                    onChange: _directUpdateImage,
-
-                    // Define the source of the image.
-                    image: _profilePicFile != null
-                        ? Image.file(_profilePicFile!, fit: BoxFit.cover)
-                        : null,
-
-                    // Define the size of EditableImage.
-                    size: 150,
-
-                    // Define the Theme of image picker.
-                    imagePickerTheme: ThemeData(
-                      // Define the default brightness and colors.
-                      primaryColor: Colors.white,
-                      shadowColor: Colors.transparent,
-                      colorScheme:
-                          const ColorScheme.light(background: Colors.white70),
-                      iconTheme: const IconThemeData(color: Colors.black87),
-
-                      // Define the default font family.
-                      fontFamily: 'Georgia',
-                    ),
-
-                    // Define the border of the image if needed.
-                    imageBorder: Border.all(color: Colors.black87, width: 2),
-
-                    // Define the border of the icon if needed.
-                    editIconBorder: Border.all(color: Colors.black87, width: 2),
-                  ),
-                  title: Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    email,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  trailing: ElevatedButton(
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontSize: 20,
-                        decoration: TextDecoration.underline,
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      // Implement photo change logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      elevation: 0,
-                    ),
+                  leading: CircleAvatar(
+                  backgroundColor: Color(0xffFFC6AE),
+                  backgroundImage: AssetImage(
+                      'assets/ananya.HEIC'), // Replace with your image asset
+                  radius: 50,
+                ),
+                title: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                subtitle: Text(
+                  email,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                  ),
+                ),
+                trailing: ElevatedButton(child: Text('Save',
+                style: TextStyle(color: Colors.orange,fontSize: 20, decoration: TextDecoration.underline, backgroundColor: Colors.white ),), onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditPersonalInfo()),
+                  );
+                }, style: ElevatedButton.styleFrom(primary: Colors.white, elevation: 0),
+                )),
+                
+
                 SizedBox(height: height * 0.03),
                 Container(
                   width: width * 0.9,
