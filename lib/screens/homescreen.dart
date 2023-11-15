@@ -3,11 +3,46 @@ import 'package:feast/models/category.dart';
 import 'package:feast/models/menu_item.dart';
 import 'package:feast/models/navbar.dart';
 import 'package:feast/models/restraunt.dart';
+import 'package:feast/screens/my_orders.dart';
+import 'package:feast/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:feast/widgets/categoryBox.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/restaurantCard.dart';
 import 'package:feast/screens/search.dart';
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+  List<Widget> pages = [
+    const HomeScreen(),
+    const MyOrders(),
+    const Profile(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[_selectedIndex],
+      bottomNavigationBar: NavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(
+            () {
+              _selectedIndex = index;
+            },
+          );
+        },
+      ),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +54,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> restaurantsGautam = [];
   List<Restaurant> r = [];
+
   void fetchRestaurants() async {
     print('working');
     const url = 'http://10.0.2.2:8000/shops';
@@ -116,20 +152,21 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    // SizedBox(
-                    //   height: height * 0.16,
-                    //   //fetch all restaurants with the given category tags
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     shrinkWrap: true,
-                    //     itemCount: Category.categories.length,
-                    //     itemBuilder: (context, index) {
-                    //       return CategoryBox(
-                    //         category: Category.categories[index],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(
+                      height: height * 0.16,
+                      //fetch all restaurants with the given category tags
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: Category.categories.length,
+                        itemBuilder: (context, index) {
+                          return CategoryBox(
+                            category: Category.categories[index],
+                            restaurants: r,
+                          );
+                        },
+                      ),
+                    ),
                     // SizedBox(
                     //   height: height * 0.16,
                     //   child: ListView.builder(
@@ -193,16 +230,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: NavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(
-            () {
-              _selectedIndex = index;
-            },
-          );
-        },
-      ),
+      // bottomNavigationBar: NavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     setState(
+      //       () {
+      //         _selectedIndex = index;
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 }
