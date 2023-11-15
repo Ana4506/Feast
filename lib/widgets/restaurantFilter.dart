@@ -17,7 +17,7 @@ class RestaurantFilter extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     // Define a list of tags that should be considered under "Drinks."
-    List<String> drinksTags = ['Juice', 'shakes', 'coffee', 'Tea'];
+    List<String> drinksTags = ['juice', 'shakes', 'coffee', 'tea'];
 
     return Scaffold(
       backgroundColor: Color(0xffD1512D),

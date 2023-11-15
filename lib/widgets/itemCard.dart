@@ -82,7 +82,8 @@ class _ItemCardState extends State<ItemCard> {
                       ),
                       SizedBox(width: width * 0.01),
                       Text(
-                        widget.rating.toString(),
+                        //ratings till 1 decimal place
+                        widget.rating.toStringAsFixed(1),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],

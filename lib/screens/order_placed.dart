@@ -27,7 +27,7 @@ class OrderPlaced extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'Your order has been placed successfully!',
+              'Order request raised successfully!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

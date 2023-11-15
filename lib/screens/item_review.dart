@@ -120,17 +120,24 @@ class _ItemReviewScreenState extends State<ItemReviewScreen> {
         // colour
         backgroundColor: Color(0xFFD1512D),
       ),
-      body: ListView.builder(
-        itemCount: itemReviews.length,
-        itemBuilder: (context, index) {
-          final itemReview = itemReviews[index];
-          return ItemReviewCard(
-            review: itemReview.review,
-            rating: itemReview.rating,
-            timestamp: itemReview.timestamp,
-          );
-        },
-      ),
+      body: itemReviews.length == 0
+          ? Center(
+              child: Text(
+                'No reviews yet',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
+          : ListView.builder(
+              itemCount: itemReviews.length,
+              itemBuilder: (context, index) {
+                final itemReview = itemReviews[index];
+                return ItemReviewCard(
+                  review: itemReview.review,
+                  rating: itemReview.rating,
+                  timestamp: itemReview.timestamp,
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           showDialog(

@@ -12,7 +12,6 @@ import "package:feast/screens/search.dart";
 import "package:feast/screens/search_results.dart";
 import "package:feast/widgets/personal_info.dart";
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
       ),
-      home: PersonalInfo(),
+      home: LoginScreen(),
     );
   }
 }

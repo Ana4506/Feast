@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:feast/screens/my_orders.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class OrderCard extends StatelessWidget {
   final Order order;
@@ -8,6 +11,7 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // order.status = order.status.replaceAll("\"", "");
     return Card(
       child: ListTile(
         contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24),
@@ -83,6 +87,27 @@ class OrderCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Container(
+                      width: 140,
+                      height: 44,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Color.fromARGB(255, 2, 1, 0),
+                          ),
+                          color: getOrderStatusColor(
+                              order.status.replaceAll("\"", ""))),
+                      child: Center(
+                        child: Text(
+                          order.status.replaceAll("\"", ""),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
                         //open a dialog box and show the order details
@@ -135,27 +160,6 @@ class OrderCard extends StatelessWidget {
                         minimumSize: Size(140, 44),
                       ),
                     ),
-                    SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Cancel Order',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 234, 101, 0),
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 255, 255, 255),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Color.fromARGB(255, 234, 101, 0),
-                          ),
-                        ),
-                        minimumSize: Size(140, 44),
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -164,5 +168,18 @@ class OrderCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getOrderStatusColor(String status) {
+    switch (status) {
+      case 'ACCEPTED':
+        return Colors.green;
+      case 'PENDING':
+        return Colors.yellow;
+      case 'REJECTED':
+        return Colors.red;
+      default:
+        return Colors.transparent;
+    }
   }
 }

@@ -51,6 +51,8 @@ class RestaurantDetailPage extends StatefulWidget {
 class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   List<dynamic> itemsData = [];
   List<ShopItem> shopItems = [];
+  List<ShopItem> filteredItems = [];
+  bool isVegFilterApplied = false;
 
   @override
   void initState() {
@@ -213,6 +215,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  // mainAxisAlignment: MainAxisAlignment,
                   children: [
                     SizedBox(
                       width: width * 0.05,
@@ -222,72 +225,136 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      width: width * .07,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 22,
+                        ),
+                        SizedBox(
+                          width: width * 0.01,
+                        ),
+                        Text(
+                          widget.restaurant.avg_rating.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          ' (30+ ratings)',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 SizedBox(
-                  height: height * 0.006,
+                  height: height * 0.008,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 25,
-                    ),
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
-                    Text(
-                      widget.restaurant.avg_rating.toString(),
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
-                    Text(
-                      '(30+ ratings)',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 0.17,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        'Show Reviews',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.orange,
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isVegFilterApplied = false;
+                          filteredItems = List.from(shopItems);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .blue, // Change the background color for "All"
+                        onPrimary:
+                            Colors.white, // Change the text color to white
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust the border radius
                         ),
+                        minimumSize: Size(80, 44), // Adjust the button size
                       ),
+                      child: Text('All'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isVegFilterApplied = true;
+                          filteredItems = shopItems
+                              .where((item) => item.vegornonveg == 'Veg')
+                              .toList();
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .green, // Change the background color for "Veg"
+                        onPrimary:
+                            Colors.white, // Change the text color to white
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust the border radius
+                        ),
+                        minimumSize: Size(80, 44), // Adjust the button size
+                      ),
+                      child: Text('Veg'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isVegFilterApplied = true;
+                          filteredItems = shopItems
+                              .where((item) => item.vegornonveg == 'Nonveg')
+                              .toList();
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .red, // Change the background color for "Non-Veg"
+                        onPrimary:
+                            Colors.white, // Change the text color to white
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust the border radius
+                        ),
+                        minimumSize: Size(80, 44), // Adjust the button size
+                      ),
+                      child: Text('Non-Veg'),
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: height * 0.006,
                 ),
                 SingleChildScrollView(
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: shopItems.length,
+                    itemCount: isVegFilterApplied
+                        ? filteredItems.length
+                        : shopItems.length,
                     itemBuilder: (context, index) {
                       return ItemCard(
-                        itemId: shopItems[index].item_id,
-                        name: shopItems[index].name_item,
-                        price: shopItems[index].price,
-                        rating: 3.7,
+                        itemId: isVegFilterApplied
+                            ? filteredItems[index].item_id
+                            : shopItems[index].item_id,
+                        name: isVegFilterApplied
+                            ? filteredItems[index].name_item
+                            : shopItems[index].name_item,
+                        price: isVegFilterApplied
+                            ? filteredItems[index].price
+                            : shopItems[index].price,
+                        rating: isVegFilterApplied
+                            ? filteredItems[index].rating
+                            : shopItems[index].rating,
                         shopId: widget.restaurant.id,
-                        vegornonveg: shopItems[index].vegornonveg,
+                        vegornonveg: isVegFilterApplied
+                            ? filteredItems[index].vegornonveg
+                            : shopItems[index].vegornonveg,
                         onAddToCart: (ShopItem) {
-                          addToCart(shopItems[index]);
+                          addToCart(isVegFilterApplied
+                              ? filteredItems[index]
+                              : shopItems[index]);
                         },
                       );
                     },
@@ -337,17 +404,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   // tyoe cas total to int
 
                   createOrder(userId, items, total.toInt());
-
-                  // final orderBody = {
-                  //   "user_id": 0, // or null
-                  //   "items": [
-                  //     {"item_id": 0, "quantity": 0}
-                  //   ],
-                  //   "total": 0
-                  // };
-
-                  // await createOrder(orderBody['user_id'], orderBody['items'],
-                  //     orderBody['total']);
                 },
                 child: Text('Checkout'),
               ),
