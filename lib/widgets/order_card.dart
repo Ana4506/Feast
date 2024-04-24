@@ -153,7 +153,7 @@ class OrderCard extends StatelessWidget {
                         style: TextStyle(fontSize: 12),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 234, 101, 0),
+                        backgroundColor: Color.fromARGB(255, 234, 101, 0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

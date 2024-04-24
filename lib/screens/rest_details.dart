@@ -268,10 +268,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .blue, // Change the background color for "All"
-                        onPrimary:
-                            Colors.white, // Change the text color to white
+                        foregroundColor: Colors.white, backgroundColor: Colors
+                            .blue, // Change the text color to white
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               8.0), // Adjust the border radius
@@ -290,10 +288,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .green, // Change the background color for "Veg"
-                        onPrimary:
-                            Colors.white, // Change the text color to white
+                        foregroundColor: Colors.white, backgroundColor: Colors
+                            .green, // Change the text color to white
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               8.0), // Adjust the border radius
@@ -312,10 +308,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .red, // Change the background color for "Non-Veg"
-                        onPrimary:
-                            Colors.white, // Change the text color to white
+                        foregroundColor: Colors.white, backgroundColor: Colors
+                            .red, // Change the text color to white
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               8.0), // Adjust the border radius
@@ -380,7 +374,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFFD1512D),
+                  backgroundColor: Color(0xFFD1512D),
                 ),
                 onPressed: () async {
                   // navigate to order_placed.dart and pass the cart items and total amount

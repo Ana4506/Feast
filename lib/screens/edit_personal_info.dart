@@ -64,7 +64,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                     context,
                     MaterialPageRoute(builder: (context) => EditPersonalInfo()),
                   );
-                }, style: ElevatedButton.styleFrom(primary: Colors.white, elevation: 0),
+                }, style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0),
                 )),
                 
 

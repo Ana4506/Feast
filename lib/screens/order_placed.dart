@@ -75,8 +75,7 @@ class OrderPlaced extends StatelessWidget {
             ElevatedButton(
               //colour
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFFD1512D),
-                onPrimary: Colors.white,
+                foregroundColor: Colors.white, backgroundColor: Color(0xFFD1512D),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),

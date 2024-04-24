@@ -121,7 +121,7 @@ class _ItemCardState extends State<ItemCard> {
             width: width * 0.25,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xFFD1512D),
+                backgroundColor: const Color(0xFFD1512D),
               ),
               onPressed: () {
                 widget.onAddToCart(
